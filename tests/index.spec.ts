@@ -39,4 +39,10 @@ describe("forRoot", () => {
         const result = await nunjucksService.render("index.html");
         expect(result).toMatchSnapshot();
     });
+
+    it("unknown template", async () => {
+        await expect(
+            nunjucksService.render("unknown.njk", {})
+        ).rejects.toThrowError();
+    });
 });
