@@ -1,0 +1,10 @@
+pre-commit:
+    parallel: true
+    commands:
+        eslint:
+            glob: "*.{js,ts}"
+            run: yarn eslint {staged_files}
+        test:
+            run: yarn test
+        build:
+            run: yarn build
