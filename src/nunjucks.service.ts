@@ -21,7 +21,13 @@ export class NunjucksService {
                 options.additional_loaders = [];
             }
             this.env = new nunjucks.Environment([
-                ...options.paths.map((p) => new nunjucks.FileSystemLoader(p)),
+                ...options.paths.map(
+                    (p) =>
+                        new nunjucks.FileSystemLoader(p, {
+                            noCache: options.options.noCache,
+                            watch: options.options.watch,
+                        })
+                ),
                 ...options.additional_loaders,
             ]);
             this.env = options.envConstructor(this.env);

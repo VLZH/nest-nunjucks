@@ -1,6 +1,6 @@
 {
     "name": "nest-nunjucks",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "description": "Nunjucks module for NestJS",
     "main": "./dist/index.js",
     "repository": "https://github.com/VLZH/nest-nunjucks",
@@ -23,12 +23,11 @@
         "prettier": "^2.0.5",
         "reflect-metadata": "^0.1.13",
         "tsdx": "^0.13.2",
-        "typescript": "^3.9.5"
+        "typescript": "^3.9.5",
+        "@arkweid/lefthook": "^0.7.2"
     },
     "peerDependencies": {
         "nunjucks": "^3.2.1"
     },
-    "dependencies": {
-        "@arkweid/lefthook": "^0.7.2"
-    }
+    "dependencies": {}
 }
