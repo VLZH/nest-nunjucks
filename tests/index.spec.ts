@@ -1,4 +1,5 @@
 import { Test } from "@nestjs/testing";
+import { FileSystemLoader } from "nunjucks";
 import { NunjucksService } from "../src/nunjucks.service";
 import { NunjucksModule } from "../src/nunjucks.module";
 import { NunjucksModuleOptions } from "../src/nunjucks.interfaces";
@@ -46,3 +47,39 @@ describe("forRoot", () => {
         ).rejects.toThrowError();
     });
 });
+
+describe("using Environment", () => {
+    let nunjucksService: NunjucksService;
+    let nunjucksOptions: NunjucksModuleOptions;
+
+    const TEMPLATES = ["./tests/templates", "./tests/templates/layouts"];
+
+    beforeAll(async () => {
+        const tmb = Test.createTestingModule({
+            imports: [
+                NunjucksModule.forRoot({
+                    paths: TEMPLATES,
+                    options: {},
+                    envConstructor: (env) => {
+                        return env.addGlobal(
+                            "logo",
+                            "http://somesite.com/logo.png"
+                        );
+                    },
+                }),
+            ],
+        });
+        const module = await tmb.compile();
+
+        nunjucksOptions = module.get<NunjucksModuleOptions>(
+            OPTIONS_PROVIDER_TOKEN
+        );
+        nunjucksService = module.get<NunjucksService>(NunjucksService);
+    });
+
+    it("[snapshot ]check with_logo.njk", async () => {
+        const result = await nunjucksService.render("with_logo.html");
+        expect(result).toMatchSnapshot();
+    });
+});
+
